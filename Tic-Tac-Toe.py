@@ -24,7 +24,9 @@ FONT = pygame.font.Font(None, 36)
 tablero = [[" " for _ in range(3)] for _ in range(3)]
 modo = 1  # Modo por defecto: Principiante
 
-# Función para dibujar el tablero
+"""
+Funcon que dibuja el tablero de juego
+"""
 def dibujar_tablero():
     SCREEN.fill(WHITE)
     for i in range(1, 3):
@@ -41,7 +43,9 @@ def dibujar_tablero():
             text = FONT.render(tablero[i][j], True, color)
             SCREEN.blit(text, (j * 100 + 40, i * 100 + 30))
     pygame.display.flip()
-
+"""
+Funcion que verifica si hay un ganador
+"""
 def verificar_ganador():
     # Verificar fila
     for i in range(3):
@@ -59,6 +63,9 @@ def verificar_ganador():
         return tablero[0][2]
     return " "
 
+"""
+Funcion que verifica si hay un empate
+"""
 def hay_empate():
     for fila in tablero:
         for celda in fila:
@@ -66,16 +73,29 @@ def hay_empate():
                 return False
     return True
 
+"""
+Funcion que obtiene el menor de dos numeros
+"""
 def obtener_menor(a , b):
     if a < b:
         return a
     return b
+"""
+Funcion que obtiene el mayor de dos numeros
+"""
 def obtener_mayor(a, b):
     if a > b:
         return a
     return b
 
+"""
+Funcion que implementa el algoritmo minimax
+"""
 def minimax(profundidad, es_maximizador, alpha, beta):
+    #verificamos si llegamos a la profundidad maxima
+    if profundidad == 0:
+        return 0
+    # Verificar si hay un ganador
     ganador = verificar_ganador()
     if ganador == "X":
         return -1
@@ -83,35 +103,39 @@ def minimax(profundidad, es_maximizador, alpha, beta):
         return 1
     if hay_empate():
         return 0
+    # Maximizador (IA)
     if es_maximizador:
         mejor_puntaje = -math.inf
         for i in range(3):
             for j in range(3):
                 if tablero[i][j] == " ":
                     tablero[i][j] = "O"
-                    puntaje = minimax(profundidad + 1, False, alpha, beta)
+                    puntaje = minimax(profundidad - 1, False, alpha, beta)
                     tablero[i][j] = " "
                     mejor_puntaje = obtener_mayor(puntaje, mejor_puntaje)
                     alpha = obtener_mayor(alpha, puntaje)
                     if beta <= alpha:
                         break
         return mejor_puntaje
+    # Minimizador (Jugador)
     else:
         mejor_puntaje = math.inf
         for i in range(3):
             for j in range(3):
                 if tablero[i][j] == " ":
                     tablero[i][j] = "X"
-                    puntaje = minimax(profundidad + 1, True, alpha, beta)
+                    puntaje = minimax(profundidad - 1, True, alpha, beta)
                     tablero[i][j] = " "
                     mejor_puntaje = obtener_menor(puntaje, mejor_puntaje)
                     beta = obtener_menor(beta, puntaje)
                     if beta <= alpha:
                         break
         return mejor_puntaje
-
+"""
+Funcion que obtiene el mejor movimiento para la IA utilizando el algoritmo minimax
+"""
 def mejor_movimiento(profundidad):
-    mejor_puntaje = -math.inf
+    mejor_puntaje = -math.inf # Inicializar con el peor puntaje posible
     mejor_mov = (-1, -1)
     for i in range(3):
         for j in range(3):
@@ -124,6 +148,9 @@ def mejor_movimiento(profundidad):
                     mejor_mov = (i, j)
     return mejor_mov
 
+"""
+Funcion que permite seleccionar el modo de juego
+"""
 def seleccionar_modo():
     global modo
     SCREEN.fill(WHITE)
@@ -160,7 +187,7 @@ def seleccionar_modo():
 
 def jugar():
     global modo
-    seleccionar_modo()
+    seleccionar_modo() # Seleccionar modo de juego
     profundidad = 0
     if modo == 2:
         profundidad = 3
@@ -179,21 +206,25 @@ def jugar():
                 if tablero[fila][col] == " ":
                     tablero[fila][col] = "X"
                     jugador = "O"
-        if jugador == "O" and corriendo:
+        if jugador == "O" and corriendo: # Turno de la IA
+            """
+            Modo 1: Principiante (Movimiento aleatorio)
+            En este modo la IA realiza movimientos aleatorios en el tablero.
+            """
             if modo == 1:
                 while True:
-                    x, y = random.randint(0, 2), random.randint(0, 2)
+                    x, y = random.randint(0, 2), random.randint(0, 2) # Movimiento aleatorio
                     if tablero[x][y] == " ":
                         tablero[x][y] = "O"
                         break
             else:
-                mov = mejor_movimiento(profundidad)
+                mov = mejor_movimiento(profundidad) # Movimiento de la IA
                 tablero[mov[0]][mov[1]] = "O"
             jugador = "X"
         ganador = verificar_ganador()
         if ganador != " " or hay_empate():
             dibujar_tablero()
-            pygame.time.delay(2000)
+            pygame.time.delay(1000)
             corriendo = False
     # Mensaje de fin de juego y reinicio 
     if ganador == " ":
@@ -204,10 +235,10 @@ def jugar():
     text = FONT.render(mensaje, True, BLACK)
     SCREEN.blit(text, (50, 150))
     pygame.display.flip()
-    pygame.time.delay(2000)
+    pygame.time.delay(1000)
     # Reinicio del juego
     for i in range(3):
         for j in range(3):
             tablero[i][j] = " "
-    jugar
+    jugar()
 jugar()
