@@ -1,49 +1,50 @@
-# Tic-Tac-Toe con IA - Algoritmo Minimax con Alpha-Beta Pruning
+# Tic-Tac-Toe with AI - Minimax Algorithm with Alpha-Beta Pruning
 
-Este proyecto implementa un juego de **Tic-Tac-Toe** (Tres en Línea) con una inteligencia artificial (IA) que utiliza el algoritmo **Minimax** con **Alpha-Beta Pruning** para tomar decisiones inteligentes.
-## Algoritmo Minimax con Alpha-Beta Pruning
+This project implements a **Tic-Tac-Toe** game with artificial intelligence (AI) using the **Minimax** algorithm with **Alpha-Beta Pruning** to make intelligent decisions.
 
-### ¿Qué es el Algoritmo Minimax?
-El algoritmo **Minimax** es un método de toma de decisiones utilizado en juegos de dos jugadores con información completa y sin incertidumbre, como el **Tic-Tac-Toe**. El objetivo de Minimax es maximizar el puntaje para un jugador (en este caso, la IA) mientras minimiza el puntaje del oponente (el jugador humano).
+## Minimax Algorithm with Alpha-Beta Pruning
 
-### ¿Cómo Funciona el Algoritmo en Este Proyecto?
+### What is the Minimax Algorithm?
 
-El algoritmo evalúa todas las posibles jugadas en el juego y selecciona la mejor jugada posible para la IA. La IA intenta maximizar su puntuación, mientras que el jugador intenta minimizar la puntuación de la IA. A continuación se describen los pasos clave del algoritmo:
+The **Minimax** algorithm is a decision-making method used in two-player games with complete information and no uncertainty, such as **Tic-Tac-Toe**. The goal of Minimax is to maximize the score for one player (in this case, the AI) while minimizing the score for the opponent (the human player).
 
-1. **Condiciones de Finalización**:
-   - Se verifica si hay un ganador utilizando la función `verificar_ganador()`. Si el jugador (X) gana, devuelve `-1`, si la IA (O) gana, devuelve `1`.
-   - Si el juego está en empate (es decir, no hay espacio disponible y no hay ganador), se devuelve `0`.
-   - Si llega a la profundida maxima(3 o 5 de acuerdo a la dificulta) se devuelve `0`.
+### How Does the Algorithm Work in This Project?
 
-2. **Recursión para el Maximizador (IA)**:
-   - Si es el turno de la IA (maximizador), intenta maximizar su puntaje.
-   - Evalúa todas las jugadas posibles, realizando cada jugada en el tablero y luego recursivamente evaluando la siguiente jugada hasta llegar a una condición de finalización(Profundida 3 para Intermedio y 5 para Avanzado).
-   - Utiliza **Alpha-Beta Pruning** para reducir el número de ramas que deben evaluarse, evitando calcular jugadas innecesarias que no afectarán el resultado final.
+The algorithm evaluates all possible moves in the game and selects the best possible move for the AI. The AI tries to maximize its score, while the player tries to minimize the AI's score. Here are the key steps of the algorithm:
 
-3. **Recursión para el Minimizador (Jugador)**:
-   - Si es el turno del jugador (minimizador), intenta minimizar el puntaje de la IA.
-   - Similar al maximizador, evalúa las jugadas posibles y utiliza la Alpha-Beta Pruning para optimizar la búsqueda.
+1. **Termination Conditions**:
+   - It checks if there's a winner using the `check_winner()` function. If the player (X) wins, it returns `-1`; if the AI (O) wins, it returns `1`.
+   - If the game is a draw (i.e., no available spaces left and no winner), it returns `0`.
+   - If it reaches the maximum depth (3 or 5 depending on difficulty), it returns `0`.
+
+2. **Recursion for the Maximizing Player (AI)**:
+   - If it's the AI's turn (maximizer), it tries to maximize its score.
+   - It evaluates all possible moves, makes each move on the board, and recursively evaluates the next move until reaching a termination condition (depth 3 for Intermediate and 5 for Advanced).
+   - It uses **Alpha-Beta Pruning** to reduce the number of branches that need evaluation, avoiding unnecessary calculations that won't affect the final outcome.
+
+3. **Recursion for the Minimizing Player (Human)**:
+   - If it's the player's turn (minimizer), it tries to minimize the AI's score.
+   - Similar to the maximizer, it evaluates possible moves and uses Alpha-Beta Pruning to optimize the search.
 
 4. **Alpha-Beta Pruning**:
-   - La **Alpha-Beta Pruning** es una optimización del algoritmo Minimax que permite reducir el número de nodos a explorar. La poda se produce cuando el algoritmo determina que una rama no afectará el resultado final, ahorrando tiempo de cálculo.
+   - **Alpha-Beta Pruning** is an optimization of the Minimax algorithm that reduces the number of nodes to explore. Pruning occurs when the algorithm determines that a branch won't affect the final outcome, saving computation time.
 
-### Flujo del Algoritmo
+### Algorithm Flow
 
-1. Comienza con la verificación de si el juego ha terminado o si se necesita más evaluación.
-2. Si es el turno de la IA, intenta maximizar el puntaje, recorriendo todas las posibles jugadas.
-3. Si es el turno del jugador, intenta minimizar el puntaje de la IA, recorriendo todas las posibles jugadas.
-4. Continúa recursivamente evaluando hasta encontrar una jugada óptima.
-5. Devuelve la mejor jugada para el jugador de turno.
+1. Starts with checking if the game has ended or needs further evaluation.
+2. If it's the AI's turn, it tries to maximize the score by exploring all possible moves.
+3. If it's the player's turn, it tries to minimize the AI's score by exploring all possible moves.
+4. Continues recursively evaluating until finding an optimal move.
+5. Returns the best move for the current player's turn.
 
-### Funciones Principales
-- **minimax(profundidad, es_maximizador, alpha, beta)**: Función recursiva que evalúa todas las jugadas posibles y devuelve el mejor puntaje.
-- **verificar_ganador()**: Verifica si hay un ganador en el tablero.
-- **hay_empate()**: Verifica si el juego ha terminado en empate.
-- **mejor_movimiento(profundidad)**: Encuentra la mejor jugada para la IA utilizando el algoritmo Minimax.
+### Key Functions
+- **minimax(depth, is_maximizing_player, alpha, beta)**: Recursive function that evaluates all possible moves and returns the best score.
+- **check_winner()**: Checks if there's a winner on the board.
+- **is_draw()**: Checks if the game has ended in a draw.
+- **best_move(depth)**: Finds the best move for the AI using the Minimax algorithm.
 
-### Conclusiones
-Este algoritmo permite que la IA juegue de manera inteligente contra un jugador humano. La combinación de Minimax con Alpha-Beta Pruning optimiza la toma de decisiones, reduciendo significativamente el número de jugadas que la IA debe evaluar. Esto hace que la IA sea capaz de competir de manera eficiente en juegos de Tic-Tac-Toe con diferentes niveles de dificultad.
+### Conclusions
+This algorithm allows the AI to play intelligently against a human player. The combination of Minimax with Alpha-Beta Pruning optimizes decision-making, significantly reducing the number of moves the AI needs to evaluate. This enables the AI to compete efficiently in Tic-Tac-Toe games with different difficulty levels.
 
-
-### Notas
-En los modos **Intermedio** y **Avanzado**, el juego generalmente termina en empate o con la IA ganando, lo que demuestra que la inteligencia artificial es bastante efectiva. En cambio, en el modo **Principiante**, los movimientos aleatorios de la IA hacen que sea fácil ganar.
+### Notes
+In **Intermediate** and **Advanced** modes, the game usually ends in a draw or with the AI winning, demonstrating the effectiveness of the artificial intelligence. In contrast, in **Beginner** mode, the AI's random moves make it easy to win.
